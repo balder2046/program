@@ -4,7 +4,7 @@
 int main() {
     CLogInstance *inst = new CLogInstance(stdout);
     
-    inst->printf("Hello World! NI HAO");
+    inst->LogInfo("Hello, That's from log!");
     return 0;
  
 }

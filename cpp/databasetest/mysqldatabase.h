@@ -1,13 +1,14 @@
 #ifndef MYSQLDATABASE_H
 #define MYSQLDATABASE_H
-#include "DataBaseclient.h"
+#include "databaseclient.h"
+#include <mysql/mysql.h>
 class CMySqlDataBase : CDataBaseClient
 {
  public:
     CMySqlDataBase();
     ~CMySqlDataBase();
- pulbic:
-    int Connect(const std::string &addr,short port,const string &username,const string &password,const string &dbname);
+ public:
+    int Connect(const std::string &addr,unsigned int port,const std::string &username,const std::string &password,const std::string &dbname);
     void CloseDB();
  private:
     MYSQL *m_hmysql;

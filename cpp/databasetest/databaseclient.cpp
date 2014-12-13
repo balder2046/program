@@ -1,5 +1,5 @@
 #include "databaseclient.h"
-CDataBaseClient:CDataBaseClient()
+CDataBaseClient::CDataBaseClient()
 {
     m_logInst = NULL;
 }

@@ -1,5 +1,5 @@
-#include "Mysqldatabase.h"
-#include <mysql/mysql.h>
+#include "mysqldatabase.h"
+
 using namespace std;
 CMySqlDataBase::CMySqlDataBase() {
     m_hmysql = mysql_init(null);   
@@ -17,13 +17,13 @@ int CMySqlDataBase::Connect(const std::string &host,unsigned int port,const stri
         pHandle = mysql_real_connect(m_hmysql,host.c_str(),username.c_str(),password.c_str(),dbname.c_str(),port,0,CLIENT_MULTI_RESULTS);
         if (pHandle) {
             if (bAutoReConnect){
-                mysql_option(m_hmysql,MYSQL_OPT_RECONNECT,"1")
+                mysql_options(m_hmysql,MYSQL_OPT_RECONNECT,"1");
             }
                 
         }
         else {
             if (m_logInst){
-                m_logInst->printf();
+                m_logInst->LogError("Connect host:%s port %d username %s password %s ,error!",host.c_str(),port,username.c_str(),password.c_str());
             }
 
         }
