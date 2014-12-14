@@ -15,6 +15,7 @@ class CLogInstance
     void LogError(const char *format,...);
     void LogWarnning(const char *format,...);
     void LogInfo(const char *format,...);
+	void NewLine();
  private:
     void LogV(int error,const char *format,va_list args);
 

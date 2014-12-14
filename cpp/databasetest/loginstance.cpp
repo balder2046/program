@@ -30,10 +30,10 @@ void CLogInstance::LogV(int error,const char *format,va_list args) {
         vfprintf(m_filep,format,args);
         
     }
+	fprintf(m_filep,"\n");
 
     
 }    
-        
 
         
     
@@ -57,3 +57,6 @@ void CLogInstance::LogInfo(const char *format,...){
     LogV(LOG_INFO,format,args);
 }
 
+void CLogInstance::NewLine() {
+	fprintf(m_filep,"\n");
+}

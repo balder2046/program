@@ -44,10 +44,10 @@ label_return:begin
               leave label_return;
            else
                 # todo :开始事务
-                start transaction
+                start transaction;
                 # todo: 插入T_Role表
-                insert into T_Role(F_RemoteID,F_UserID,F_UserName,F_RoleName,F_FileIndex,F_Type,F_Sex
-                ,F_Level,F_Sceneario,F_Exp,F_Money,F_UpdateTime,F_BlockNo,F_ZoneID)
+                insert into T_Role(F_RemoteID,F_UserID,F_UserName,F_RoleName,F_FileIndex,F_Type,F_Sex,
+                F_Level,F_Sceneario,F_Exp,F_Money,F_UpdateTime,F_BlockNo,F_ZoneID)
                 values (RemoteID,userid,username,rolename,FileIndex,roletype,sex,level,Scenario,exp,money,now(),blockno,zoneid);
                 set RoleID=Last_Insert_ID();
                 # todo: 插入Log
