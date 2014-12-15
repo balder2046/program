@@ -7,7 +7,12 @@
 (key-chord-define-global "OO" 'prelude-smart-open-line-above)
 (defun my:c-common-hook()
   ;;(local-set-key (kbd "M-O") 'helm-projectile-find-other-file)
-  (local-set-key (kbd "RET") 'prelude-smart-open-line)
+ ;; (local-set-key (kbd "RET") 'prelude-smart-open-line)
+  (c-set-style "linux")
+  ;;(setq electric-indent-mode t)
+  (electric-indent-mode t)
   (setq c-basic-offset 4)
+  (c-toggle-hungry-state t)
+  
 )
 (add-hook 'c-mode-common-hook 'my:c-common-hook)
