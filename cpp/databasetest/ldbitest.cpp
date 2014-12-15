@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "ldbitest.h"
 #include "loginstance.h"
 #include "databaseclient.h"
 int main() {
