@@ -93,11 +93,15 @@ bool CRowData::Write(DataBaseDataType type, const char *buf, int length)
         break;
     
     }
+    default:
+        return false;
+        break;
         
         
     }
+    return true;
       
-}
+};
 void CRowData::Reset(){
     mRead = 0;
     mWrite = 0;

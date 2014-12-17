@@ -13,6 +13,11 @@
   (electric-indent-mode t)
   (setq c-basic-offset 4)
   (c-toggle-hungry-state t)
+  (c-toggle-auto-newline)
   
-)
+  )
+(defun my:c++-hook()
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+  )
 (add-hook 'c-mode-common-hook 'my:c-common-hook)
+(add-hook 'c++-mode-hook 'my:c++-hook)
