@@ -27,6 +27,7 @@ class CRowData
     ~CRowData();
 public:
     void Reset();
+    
 public:
     bool WriteInt32(const char *szBuf,int length);
     bool GetTinyInt(byte *data,bool &isnull)
