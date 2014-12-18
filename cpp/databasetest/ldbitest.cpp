@@ -2,7 +2,23 @@
 #include "ldbitest.h"
 #include "loginstance.h"
 #include "databaseclient.h"
+#include <boost/pool/pool.hpp>
+using namespace boost;
+
+void pooltest()
+{
+    pool<> pl(sizeof(int));
+    int *p = (int *)pl.malloc();
+    pl.free(p);
+    for (int i = 0; i < 100; ++i)
+    {
+        pl.ordered_malloc(10);
+        
+    }
+}
 int main() {
+    pooltest();
+    
     CLogInstance *inst = new CLogInstance(stdout);
     inst->NewLine();
     CDataBaseClient *client = CreateMySqlClient(inst);
@@ -19,6 +35,4 @@ int main() {
 
     delete client;
     return 0;
-
-
 }
