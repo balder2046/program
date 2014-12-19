@@ -14,7 +14,7 @@
   (setq c-basic-offset 4)
   (c-toggle-hungry-state t)
   (c-toggle-auto-newline)
-  
+  (define-key c-mode-map ";" nil)
   )
 (defun my:c++-hook()
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))

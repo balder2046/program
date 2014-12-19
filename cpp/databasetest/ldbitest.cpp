@@ -3,6 +3,7 @@
 #include "loginstance.h"
 #include "databaseclient.h"
 #include <boost/pool/pool.hpp>
+#include <time.h>
 using namespace boost;
 
 void pooltest()
@@ -16,9 +17,25 @@ void pooltest()
         
     }
 }
-int main() {
-    pooltest();
+void timetest()
+{
+    time_t now;
+    time(&now);
+    struct tm *tm_now = localtime(&now);
+    char timeBuf[32];
+    //using the strftime ,not the directly time
+    strftime(timeBuf,32,"%F %T",tm_now);
+        
+    printf("Now strftime return time is %s",timeBuf);
     
+    printf("Now is %4d-%02d-%02d %02d:%02d:%02d\n",tm_now->tm_year,tm_now->tm_mon,tm_now->tm_mday,
+           tm_now->tm_hour,tm_now->tm_min,tm_now->tm_sec);
+    
+    
+}
+int main() {
+//    pooltest();
+    timetest();
     CLogInstance *inst = new CLogInstance(stdout);
     inst->NewLine();
     CDataBaseClient *client = CreateMySqlClient(inst);
