@@ -5,6 +5,7 @@
 )
 (yas-global-mode)
 (key-chord-define-global "OO" 'prelude-smart-open-line-above)
+
 (defun my:c-common-hook()
   ;;(local-set-key (kbd "M-O") 'helm-projectile-find-other-file)
  ;; (local-set-key (kbd "RET") 'prelude-smart-open-line)
@@ -14,7 +15,8 @@
   (setq c-basic-offset 4)
   (c-toggle-hungry-state t)
   (c-toggle-auto-newline)
-  (define-key c-mode-map ";" nil)
+  (add-to-list 'c-hanging-semi&comma-criteria 'c-semi&comma-no-newlines-before-nonblanks)
+  ;;(define-key c-mode-base-map ";" nil)
   )
 (defun my:c++-hook()
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
