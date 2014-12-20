@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <string.h>
 #include "commondefine.h"
+#include "allocators.h"
+
 enum DataBaseDataType
 {
     DATATYPE_NULL,
@@ -18,12 +20,14 @@ enum DataBaseDataType
     DATATYPE_BINARY,
     
 };
+
 //a databuffer represent a row    
 class CRowData
 {
-    
+private:
+    AllocatorBase *m_pAllocator;
  public:
-    CRowData();
+    CRowData(size_t maxSize,AllocatorBase *allocator = null);
     ~CRowData();
 public:
     void Reset();
@@ -54,6 +58,11 @@ public:
     {
         return getData(DATATYPE_BINARY,buf,maxBuf,isnull);
     }
+    bool GetUnixTime(time_t *data,bool &isnull)
+        {
+            return getData(DATATYPE_DATETIME,(byte *)data,sizeof(time_t),isnull);            
+        }
+    bool GetTimeString(char *szText,size_t maxBuf,bool &isnull);
 public:
     
     
@@ -144,9 +153,11 @@ private:
     
 
 private:
-    byte *dataBuf;
+    byte *mDataBuf;
     size_t mWrite;
     size_t mRead;
+    size_t maxSize;
+    
 
 };
 

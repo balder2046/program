@@ -4,6 +4,7 @@
 #include "databaseclient.h"
 #include <boost/pool/pool.hpp>
 #include <time.h>
+#include <gtest/gtest.h>
 using namespace boost;
 
 void pooltest()
@@ -17,6 +18,14 @@ void pooltest()
         
     }
 }
+int My_Add(int a, int b)
+{
+    return a + b;
+}
+TEST(DataBaseTest,addOPTest)
+{
+    EXPECT_EQ(3,My_Add(1,2));
+}
 void timetest()
 {
     time_t now;
@@ -29,11 +38,16 @@ void timetest()
     printf("Now strftime return time is %s",timeBuf);
     
     printf("Now is %4d-%02d-%02d %02d:%02d:%02d\n",tm_now->tm_year,tm_now->tm_mon,tm_now->tm_mday,
-           tm_now->tm_hour,tm_now->tm_min,tm_now->tm_sec);
-    
+           tm_now->tm_hour,tm_now->tm_min,tm_now->tm_sec);    
+}
+
+TEST(DataBaseTest,readFromJson)
+{
     
 }
-int main() {
+int main(int argc,char *argv[]) {
+    testing::InitGoogleTest(&argc,argv);
+    return RUN_ALL_TESTS();
 //    pooltest();
     timetest();
     CLogInstance *inst = new CLogInstance(stdout);

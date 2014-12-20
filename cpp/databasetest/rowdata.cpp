@@ -3,14 +3,24 @@
 #include "stdio.h"
 #include <time.h>
 #include <string.h>
-CRowData::CRowData()
+CRowData::CRowData(size_t maxSize, AllocatorBase *allocator)
 {
+    if (allocator == null)
+    {
+        m_pAllocator = AllocatorBase::GetDefaultAllocator();
+    }
+    else
+    {
+        m_pAllocator = allocator;
+    }
+    mDataBuf = (byte *)m_pAllocator->Alloc(maxSize);
     Reset();
 }
 
 
 CRowData::~CRowData()
 {
+    m_pAllocator->Free(mDataBuf);
 }
 bool CRowData::Write(DataBaseDataType type, const char *buf, int length)
 {
@@ -108,13 +118,13 @@ void CRowData::Reset(){
 }
 bool CRowData::write(const void *buf,size_t size)
 {
-    memcpy(dataBuf + mWrite,buf,size);
+    memcpy(mDataBuf + mWrite,buf,size);
     mWrite += size;
     return true;
 }
 bool CRowData::read(void *buf,size_t size)
 {
-    memcpy(buf,dataBuf+mRead,size);
+    memcpy(buf,mDataBuf+mRead,size);
     mRead += size;
     return true;
 }
@@ -134,6 +144,14 @@ bool CRowData::testType(DataBaseDataType type,bool &isnull)
         return btype == (byte)type;
     }
     
+}
+bool CRowData::GetTimeString(char *szText,size_t maxBuf,bool &isnull)
+{
+    time_t timedata;
+    getData(DATATYPE_DATETIME, (byte *)&timedata, sizeof(time_t), isnull);
+    struct tm *tm_time = localtime(&timedata);
+    strftime(szText,maxBuf,"%F %T",tm_time);
+    return true;
 }
 bool CRowData::getData(DataBaseDataType type,byte *buf,size_t size,bool &isnull)
 {
