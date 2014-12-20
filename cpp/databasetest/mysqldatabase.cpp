@@ -2,7 +2,7 @@
 
 using namespace std;
 CMySqlDataBase::CMySqlDataBase() {
-    m_hmysql = mysql_init(null);   
+    m_hmysql = mysql_init(NULL);   
 }
 CMySqlDataBase::~CMySqlDataBase() {
     if (m_hmysql != NULL)
@@ -38,7 +38,7 @@ void CMySqlDataBase::CloseDB()
 {
     if (m_hmysql) {
 		mysql_close(m_hmysql);
-		m_hmysql = null;
+		m_hmysql = NULL;
 	}
 }
 bool CMySqlDataBase::Query(const std::string &sql)

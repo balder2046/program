@@ -27,7 +27,7 @@ class CRowData
 private:
     AllocatorBase *m_pAllocator;
  public:
-    CRowData(size_t maxSize,AllocatorBase *allocator = null);
+    CRowData(size_t maxSize,AllocatorBase *allocator = NULL);
     ~CRowData();
 public:
     void Reset();

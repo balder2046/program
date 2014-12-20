@@ -5,7 +5,12 @@
 #include <boost/pool/pool.hpp>
 #include <time.h>
 #include <gtest/gtest.h>
+#include <fstream>
+#include <jsoncpp/json/json.h>
+#include <jsoncpp/json/reader.h>
 using namespace boost;
+using namespace std;
+
 
 void pooltest()
 {
@@ -43,6 +48,29 @@ void timetest()
 
 TEST(DataBaseTest,readFromJson)
 {
+    fstream fs;
+    fs.open("resource/data/newusers.json");
+    ASSERT_TRUE(fs.is_open());
+    if (fs.is_open())
+    {
+        Json::Reader reader;
+        Json::Value value;
+        Json::Value root;
+        reader.parse(fs,root);
+        ASSERT_TRUE(!root["Users"].isNull());
+        value = root["Users"];
+        size_t size = value.size();
+        ASSERT_EQ(size, 3);
+        //printf("%s",value[0]["Name"].asCString());
+        const char *password = "111111";
+        ASSERT_STREQ(value[0]["Name"].asCString(),"张三");
+        ASSERT_STREQ(value[0]["Password"].asCString(),password);
+        ASSERT_STREQ(value[1]["Name"].asCString(),"李四");
+        ASSERT_STREQ(value[1]["Password"].asCString(),password);
+        ASSERT_STREQ(value[2]["Name"].asCString(),"王五");
+        ASSERT_STREQ(value[2]["Password"].asCString(),password);        
+        fs.close();
+    }
     
 }
 int main(int argc,char *argv[]) {

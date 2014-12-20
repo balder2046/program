@@ -5,7 +5,7 @@
 #include <string.h>
 CRowData::CRowData(size_t maxSize, AllocatorBase *allocator)
 {
-    if (allocator == null)
+    if (allocator == NULL)
     {
         m_pAllocator = AllocatorBase::GetDefaultAllocator();
     }
