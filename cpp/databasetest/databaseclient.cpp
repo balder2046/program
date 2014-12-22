@@ -13,7 +13,11 @@ CDataBaseClient * CreateMySqlClient(CLogInstance *logInstance) {
     return pClient;
 }
 
-
+void FreeMySqlClient(CDataBaseClient *&client)
+{
+    delete client;
+    client = NULL;
+}
 
 
 

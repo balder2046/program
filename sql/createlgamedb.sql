@@ -1,4 +1,18 @@
 use LGameDB;
+
+drop procedure if exists _LDBI_CreateUserCore;
+delimiter $$
+/*retCode : 10000 账户名已经被注册*/
+create procedure _LDBI_CreateUserCore (username char(20), password char(30),out retcode int)
+label_return:begin
+        set retcode = 0;
+        if exists(select 1 from T_UserCore where F_UserName = username) then
+           set retcode = 10000;
+           leave label_return;
+        end if;
+        insert into T_UserCore(F_UserName,F_PassWord) values (username,password);
+end$$
+delimiter ;
 delimiter $$
 drop procedure if exists _LDBI_RoleLog_Appand;
 create procedure _LDBI_RoleLog_Appand (userid int,EventID int,username char(20),
@@ -86,7 +100,6 @@ create table T_Role(
        F_ZoneID int not null default 0,
        index index_rolename  (F_RoleName)
 ) charset=utf8;
-
 
 
 

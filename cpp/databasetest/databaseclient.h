@@ -23,5 +23,7 @@ class CDataBaseClient
     CLogInstance *m_logInst;
 };
 CDataBaseClient * CreateMySqlClient(CLogInstance *logInst);
+void FreeMySqlClient(CDataBaseClient *&client);
+
 
 #endif /* DATABASECLIENT_H */
