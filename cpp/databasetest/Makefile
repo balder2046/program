@@ -1,9 +1,9 @@
 DEPDIR := .deps
 OBJDIR := objs
 CPPFLAGS := -g
-LDLIBS := -lmysqlclient -lboost_system -lgtest -lpthread -ljsoncpp
+LDLIBS := -lmysqlclient -lboost_system -lgtest -lpthread -ljsoncpp -lmysqlcppconn
 COMPILE.CPP := clang++
-SRCS := ldbitest.cpp loginstance.cpp databaseclient.cpp mysqldatabase.cpp rowdata.cpp allocators.cpp
+SRCS := ldbitest.cpp loginstance.cpp databaseclient.cpp mysqldatabase.cpp rowdata.cpp allocators.cpp mysqldatabasep.cpp
 #OBJS := ldbitest.o loginstance.o databaseclient.o mysqldatabase.o  rowdata.o
 OBJS := $(patsubst %.cpp,objs/%.o, $(SRCS))
 OBJDIRS := $(sort $(dir $(OBJS)))

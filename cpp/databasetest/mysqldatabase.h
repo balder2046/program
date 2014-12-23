@@ -12,6 +12,8 @@ class CMySqlDataBase :public  CDataBaseClient
     void CloseDB();
  public:
 	bool Query(const std::string &sql);
+public:
+    virtual void Test(const std::string &testname);
  private:
     MYSQL *m_hmysql;
 };

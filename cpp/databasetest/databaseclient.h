@@ -19,11 +19,18 @@ class CDataBaseClient
     {
         m_logInst = logInst;        
     }
+public:
+    virtual void Test(const std::string &test)
+        {
+            
+        }
  protected:
     CLogInstance *m_logInst;
 };
 CDataBaseClient * CreateMySqlClient(CLogInstance *logInst);
 void FreeMySqlClient(CDataBaseClient *&client);
+CDataBaseClient * CreateDataBaseClient(const std::string &name,CLogInstance *logInst);
+void FreeDataBaseClient(CDataBaseClient *&client);
 
 
 #endif /* DATABASECLIENT_H */

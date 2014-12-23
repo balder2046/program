@@ -75,23 +75,32 @@ TEST(DataBaseTest,readFromJson)
 }
 int main(int argc,char *argv[]) {
     testing::InitGoogleTest(&argc,argv);
-    return RUN_ALL_TESTS();
+
 //    pooltest();
     timetest();
     CLogInstance *inst = new CLogInstance(stdout);
     inst->NewLine();
-    CDataBaseClient *client = CreateMySqlClient(inst);
+    //CDataBaseClient *client = CreateMySqlClient(inst);
+    CDataBaseClient *client = CreateDataBaseClient("mysqlp",inst);
     client->Connect("127.0.0.1", 3306, "root", "root", "LGameDB");
     std::string sql = "insert into T_Test values()";
+    client->Query(sql);
+    client->Query(sql);
     client->Query(sql);
 
     std::string errsql = "insert into T_Test(name) values('赵磊');";
     client->Query(errsql);
     std::string querysql = "select * from T_Test";
     client->Query(querysql);
+    client->Test("proc");
+    //Create Role
+    //Goto Game
+    //Leave to Game
+    //Delete Role
+    
     inst->LogInfo("Hello, That's from log!");
-
-
+    
+    return RUN_ALL_TESTS();
     delete client;
     return 0;
 }
