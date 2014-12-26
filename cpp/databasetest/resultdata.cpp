@@ -1,9 +1,9 @@
 #include "resultdata.h"
-CResultData::CRowData()
+CResultData::CResultData()
 {
     
 }
-CResultData::~CRowData()
+CResultData::~CResultData()
 {
     
 }

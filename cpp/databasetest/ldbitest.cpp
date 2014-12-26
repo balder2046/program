@@ -8,6 +8,7 @@
 #include <fstream>
 #include <jsoncpp/json/json.h>
 #include <jsoncpp/json/reader.h>
+#include "ldbidatabase.h"
 using namespace boost;
 using namespace std;
 
@@ -73,6 +74,39 @@ TEST(DataBaseTest,readFromJson)
     }
     
 }
+void Test_InsertUser(CLdbiDataBase *database)
+{
+    fstream fs;
+    fs.open("resource/data/newusers.json");
+    if (fs.is_open())
+    {
+        Json::Reader reader;
+        Json::Value value;
+        Json::Value root;
+        reader.parse(fs,root);
+        value = root["Users"];
+        size_t size = value.size();
+        for (int i = 0; i < (int)size;++i)
+        {
+            int ncode = 0;
+            database->CreateUser(value[i]["Name"].asCString(), value[i]["Password"].asCString(),ncode);
+            database->GetLogInstance()->LogInfo("Index %d code : %d",i,ncode);
+        }
+    }
+}
+void Test_LoginUser()
+{
+    
+}
+void Test_CreateRole()
+{
+    
+}
+void Test_DeleteRole()
+{
+    
+}
+
 int main(int argc,char *argv[]) {
     testing::InitGoogleTest(&argc,argv);
 
@@ -81,26 +115,29 @@ int main(int argc,char *argv[]) {
     CLogInstance *inst = new CLogInstance(stdout);
     inst->NewLine();
     //CDataBaseClient *client = CreateMySqlClient(inst);
-    CDataBaseClient *client = CreateDataBaseClient("mysqlp",inst);
+    //CDataBaseClient *client = CreateDataBaseClient("mysqlp",inst);
+    CLdbiDataBase *client = CreateLDBIDataBase(inst);
     client->Connect("127.0.0.1", 3306, "root", "root", "LGameDB");
     std::string sql = "insert into T_Test values()";
     client->Query(sql);
-    client->Query(sql);
-    client->Query(sql);
+    
 
     std::string errsql = "insert into T_Test(name) values('赵磊');";
     client->Query(errsql);
-    std::string querysql = "select * from T_Test";
-    client->Query(querysql);
+//    std::string querysql = "select * from T_Test";
+//    client->Query(querysql);
     client->Test("proc");
+    Test_InsertUser(client);
+    
+    
     //Create Role
     //Goto Game
     //Leave to Game
     //Delete Role
     
     inst->LogInfo("Hello, That's from log!");
-    
-    return RUN_ALL_TESTS();
     delete client;
+    return RUN_ALL_TESTS();
+    
     return 0;
 }

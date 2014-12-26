@@ -4,6 +4,8 @@
 #include "mysql_connection.h"
 #include "cppconn/driver.h"
 #include "cppconn/statement.h"
+#include "cppconn/prepared_statement.h"
+#include <memory.h>
 class CMySqlDataBasePlus : public CDataBaseClient
 {
 public:
@@ -14,12 +16,18 @@ public:
     virtual void CloseDB();
     //About the Logs
     virtual bool Query(const std::string &sql);
+    virtual void Test(const std::string &name);
     
     
 private:
     sql::Driver *m_driver;
-    sql::Connection *m_connection;
+    
+    
+    std::auto_ptr<sql::PreparedStatement> m_prestmt;
+protected:
     sql::Statement *m_stmt;
+    sql::Connection *m_connection;
+    
 };
 
 

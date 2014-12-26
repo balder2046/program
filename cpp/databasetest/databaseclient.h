@@ -5,6 +5,8 @@
 #include "loginstance.h"
 class CDataBaseClient
 {
+public:
+    enum {Input_Parameter,Output_Parameter};
  public:
     CDataBaseClient();
     virtual ~CDataBaseClient();
@@ -12,6 +14,10 @@ class CDataBaseClient
     virtual void CloseDB() = 0;
     //About the Logs
     virtual bool Query(const std::string &sql) = 0;
+protected:
+    virtual void onConnected(){};
+    
+    
     
  public:
         
@@ -19,11 +25,16 @@ class CDataBaseClient
     {
         m_logInst = logInst;        
     }
+    CLogInstance *GetLogInstance()
+        {
+            return m_logInst;
+        }
 public:
-    virtual void Test(const std::string &test)
+    virtual void Test(const std::string &)
         {
             
         }
+    
  protected:
     CLogInstance *m_logInst;
 };

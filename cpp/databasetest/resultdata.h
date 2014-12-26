@@ -6,7 +6,7 @@
 class CResultData
 {
 public:
-    typedef std::list<rowdata> LIST_ROWDATA;
+
 public:
     CResultData();
     virtual ~CResultData();

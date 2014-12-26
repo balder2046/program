@@ -2,15 +2,18 @@
 #include "stdio.h"
 #include "cppconn/exception.h"
 #include "cppconn/resultset.h"
+#include "cppconn/prepared_statement.h"
 CMySqlDataBasePlus::CMySqlDataBasePlus()
 {
     m_driver = get_driver_instance();
     m_connection = NULL;
     m_stmt = NULL;
+    m_prestmt.reset(NULL);
 }
 
 CMySqlDataBasePlus::~CMySqlDataBasePlus()
 {
+    m_prestmt.release();
     if (m_stmt)
     {
         delete m_stmt;
@@ -32,6 +35,11 @@ int CMySqlDataBasePlus::Connect(const std::string &ipaddr,unsigned int port,cons
         m_connection = m_driver->connect(szBuf,username.c_str(),password.c_str());
         m_connection->setSchema(dbname.c_str());
         m_stmt = m_connection->createStatement();
+        m_prestmt.reset(m_connection->prepareStatement("call _LDBI_CreateUserCore(?,?,@retcode)"));
+        m_prestmt->clearParameters();
+        onConnected();
+        
+        
     
     }
     catch (sql::SQLException &e)
@@ -44,17 +52,9 @@ int CMySqlDataBasePlus::Connect(const std::string &ipaddr,unsigned int port,cons
 void CMySqlDataBasePlus::CloseDB()
 {
     m_logInst->LogInfo("Close DB ......");
-    if (m_stmt)
-    {
-        delete m_stmt;
-        m_stmt = NULL;
-    }
-    if (m_connection)
-    {
-        m_connection->close();
-        delete m_connection;
-        m_connection = NULL;
-    }
+    SAFE_DELETE(m_stmt);
+    SAFE_DELETE(m_connection);
+    
 }
 //About the Logs
 bool CMySqlDataBasePlus::Query(const std::string &sql)
@@ -75,3 +75,22 @@ bool CMySqlDataBasePlus::Query(const std::string &sql)
     return true;
 }
     
+void CMySqlDataBasePlus::Test(const std::string &name)
+{
+
+    if (name == "proc")
+    {
+        if (!m_prestmt.get()) return ;
+      
+        m_prestmt->clearParameters();
+        m_prestmt->setString(1, "zhangsan");
+
+        m_prestmt->setString(2,"111111");
+        m_logInst->LogInfo("Start Call Procedure ....");
+        m_prestmt->execute();
+        
+        std::auto_ptr<sql::ResultSet> res(m_stmt->executeQuery("select @retcode as ret;"));
+        res->first();
+        m_logInst->LogInfo("return code %d",res->getInt(1));        
+    }
+}

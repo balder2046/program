@@ -1,16 +1,16 @@
 DEPDIR := .deps
 OBJDIR := objs
-CPPFLAGS := -g
+CPPFLAGS := -g -std=c++11
 LDLIBS := -lmysqlclient -lboost_system -lgtest -lpthread -ljsoncpp -lmysqlcppconn
 COMPILE.CPP := clang++
-SRCS := ldbitest.cpp loginstance.cpp databaseclient.cpp mysqldatabase.cpp rowdata.cpp allocators.cpp mysqldatabasep.cpp
+SRCS := ldbitest.cpp loginstance.cpp databaseclient.cpp mysqldatabase.cpp rowdata.cpp allocators.cpp mysqldatabasep.cpp ldbidatabase.cpp
 #OBJS := ldbitest.o loginstance.o databaseclient.o mysqldatabase.o  rowdata.o
 OBJS := $(patsubst %.cpp,objs/%.o, $(SRCS))
 OBJDIRS := $(sort $(dir $(OBJS)))
 DEPS := $(patsubst %.cpp,deps/%.d, $(SRCS))
 $(info $(OBJDIRS))
 $(shell mkdir -p $(OBJDIRS))
-
+$(shell mkdir deps)
 ldbitest : $(OBJS) notexist.h
 	$(COMPILE.CPP) $(OBJS) -o ldbitest $(LDLIBS)
 include $(DEPS)
