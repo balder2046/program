@@ -10,6 +10,7 @@ int main()
     unsigned int count = clang_getNumDiagnostics(tu);
     for (unsigned int i = 0; i < count; ++i)
     {
+        CXDiagnostic diag = clang_getDiagnostic(i);
         
     }
     return 0;
