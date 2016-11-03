@@ -3,3 +3,5 @@
 cpp/databasetest/ldbitest
 cpp/databasetest/deps
 cpp/databasetest/obj
+build
+.idea
